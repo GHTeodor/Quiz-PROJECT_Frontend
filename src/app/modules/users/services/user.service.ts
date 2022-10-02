@@ -17,4 +17,11 @@ export class UserService {
       catchError(err => throwError(err))
     );
   }
+
+  getById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${urls.users}/${id}`).pipe(
+      map(value => value),
+      catchError(err => throwError(err))
+    );
+  }
 }

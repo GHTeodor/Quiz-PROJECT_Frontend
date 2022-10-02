@@ -1,2 +1,19 @@
 <h1>USERS!</h1>
-<p>{{ users | json }}</p>
+
+<mat-list *ngFor="let user of users">
+
+  <mat-list-item>Id: {{ user.id }}</mat-list-item>
+  <mat-list-item>firstName: {{ user.firstName }}</mat-list-item>
+  <mat-list-item>lastName: {{ user.lastName }}</mat-list-item>
+  <mat-list-item>fullName: {{ user.fullName }}</mat-list-item>
+  <mat-list-item>userName: {{ user.userName }}</mat-list-item>
+  <mat-list-item>email: {{ user.email }}</mat-list-item>
+  <mat-list-item>phone: {{ user.phone }}</mat-list-item>
+  <mat-list-item>age: {{ user.age }}</mat-list-item>
+  <mat-list-item>role: {{ user.role }}</mat-list-item>
+  <mat-list-item>createdAt: {{ user.createdAt }}</mat-list-item>
+  <mat-list-item>updatedAt: {{ user.updatedAt }}</mat-list-item>
+  <a mat-stroked-button routerLink="{{user.id}}">Show details about token</a>
+</mat-list>
+
+<router-outlet></router-outlet>
