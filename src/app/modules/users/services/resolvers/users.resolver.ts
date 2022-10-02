@@ -3,15 +3,13 @@ import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/r
 
 import { UserService } from "../user.service";
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class UserResolver implements Resolve<boolean> {
+export class UsersResolver implements Resolve<any> {
   constructor(private userService: UserService) {  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-    const { id } = route.params;
-    return this.userService.getById(id);
+    return this.userService.getAll();
   }
 }
