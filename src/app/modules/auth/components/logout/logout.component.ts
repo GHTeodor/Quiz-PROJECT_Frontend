@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
 
 import { AuthService } from "../../services";
 
@@ -8,15 +9,21 @@ import { AuthService } from "../../services";
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent implements OnInit, OnDestroy {
+  private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private router: Router,
-              private authService: AuthService) { }
+  constructor(private readonly router: Router,
+              private readonly authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   logout(): void {
-    this.authService.logout().subscribe(res => console.log("Done"));
+    this.authService.logout().pipe(takeUntil(this.unsubscribe$)).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

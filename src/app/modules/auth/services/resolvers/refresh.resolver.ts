@@ -7,10 +7,9 @@ import { AuthService } from "../auth.service";
   providedIn: 'root'
 })
 export class RefreshResolver implements Resolve<any> {
-  constructor(private authService: AuthService) {  }
+  constructor(private readonly authService: AuthService) {  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-    const { id } = route.params;
-    return this.authService.refreshToken(id);
+    return this.authService.refreshToken();
   }
 }

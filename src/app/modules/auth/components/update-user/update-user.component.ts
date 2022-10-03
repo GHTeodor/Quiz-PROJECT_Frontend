@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Subject, takeUntil } from "rxjs";
 
 import { UpdateByIdUser } from "../../interfaces";
 import { AuthService } from "../../services";
@@ -10,14 +11,15 @@ import { AuthService } from "../../services";
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.scss']
 })
-export class UpdateUserComponent implements OnInit {
-  public form!: FormGroup;
-  public updatedUser!: UpdateByIdUser;
-  public errorEmail!: any;
+export class UpdateUserComponent implements OnInit, OnDestroy {
+  form!: FormGroup;
+  updatedUser!: UpdateByIdUser;
+  errorEmail!: any;
+  private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private router: Router,
-              private route: ActivatedRouteSnapshot,
-              private authService: AuthService) {  }
+  constructor(private readonly router: Router,
+              private readonly route: ActivatedRouteSnapshot,
+              private readonly authService: AuthService) {  }
 
   ngOnInit(): void {
     this._createForm();
@@ -51,12 +53,17 @@ export class UpdateUserComponent implements OnInit {
 
       const { id } = this.route.params;
 
-      this.authService.updateById(id, this.updatedUser).subscribe(value => {
+      this.authService.updateById(id, this.updatedUser).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
         console.log(value);
       });
       // this.router.navigate(['users']);
 
       this.form.reset();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

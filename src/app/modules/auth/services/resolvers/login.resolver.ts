@@ -7,7 +7,7 @@ import { AuthService } from "../auth.service";
   providedIn: 'root'
 })
 export class LoginResolver implements Resolve<any> {
-  constructor(private authService: AuthService) {  }
+  constructor(private readonly authService: AuthService) {  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     console.log("ROUTE DATA ============================\n");

@@ -10,38 +10,38 @@ import { Login, Registration } from "../interfaces";
 })
 export class AuthService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   registration(registrationData: Registration): Observable<any> {
-    return this.httpClient.post<any>(urls.registration, registrationData).pipe(
+    return this.http.post<any>(urls.registration, registrationData).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
   login(loginData: Login): Observable<any> {
-    return this.httpClient.post<any>(urls.login, loginData).pipe(
+    return this.http.post<any>(urls.login, loginData).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
-  refreshToken(id: number): Observable<any> {
-    return this.httpClient.post(urls.refresh, id).pipe(
+  refreshToken(): Observable<any> {
+    return this.http.post(urls.refresh, {}).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
   logout(): Observable<any> {
-    return this.httpClient.delete(urls.logout).pipe(
+    return this.http.delete(urls.logout).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
   updateById(id: number, updatedUser: any): Observable<any> {
-    return this.httpClient.put(`${urls.update}/${id}`, updatedUser).pipe(
+    return this.http.put(`${urls.update}/${id}`, updatedUser).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );

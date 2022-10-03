@@ -1,2 +1,12 @@
 <h1>QUESTIONS!</h1>
-<p>{{ questions | json }}</p>
+
+<ng-container *ngIf="questions.length">
+<ul *ngFor="let question of questions">
+  <h3>Title: {{question.titleQuestion}}</h3>
+  <li>Correct: {{question.correctAnswer}}</li>
+  <ul *ngFor="let answer of question.incorrectAnswers">
+    <li>Incorrect: {{answer.incorrectAnswer}}</li>
+  </ul>
+</ul>
+</ng-container>
+<ng-container *ngIf="questions.length === 0">{{questions | json}}</ng-container>

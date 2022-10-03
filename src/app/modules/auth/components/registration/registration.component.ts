@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
 
 import { Registration } from "../../interfaces";
 import { AuthService } from "../../services";
@@ -10,13 +11,14 @@ import { AuthService } from "../../services";
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
-  public form!: FormGroup;
-  public registration!: Registration;
-  public errorEmail!: any;
+export class RegistrationComponent implements OnInit, OnDestroy {
+  form!: FormGroup;
+  registration!: Registration;
+  errorEmail!: any;
+  private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private router: Router,
-              private authService: AuthService) {  }
+  constructor(private readonly router: Router,
+              private readonly authService: AuthService) {  }
 
   ngOnInit(): void {
     this._createForm();
@@ -48,7 +50,7 @@ export class RegistrationComponent implements OnInit {
         age: this.form.get('age')?.value
       }
 
-      this.authService.registration(this.registration).subscribe(value => {
+      this.authService.registration(this.registration).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
         console.log(value);
         // next: () => this.router.navigate(['login']),
         // error: err => this.errorEmail = err.error()
@@ -57,5 +59,10 @@ export class RegistrationComponent implements OnInit {
 
       this.form.reset();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

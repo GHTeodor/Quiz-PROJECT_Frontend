@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
 
 import { Login } from "../../interfaces";
 import { AuthService } from "../../services";
@@ -10,13 +11,14 @@ import { AuthService } from "../../services";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  public form!: FormGroup;
-  public login!: Login;
-  public token!: any;
+export class LoginComponent implements OnInit, OnDestroy {
+  form!: FormGroup;
+  login!: Login;
+  token!: string;
+  private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private router: Router,
-              private authService: AuthService) { }
+  constructor(private readonly router: Router,
+              private readonly authService: AuthService) { }
 
   ngOnInit(): void {
     this._createForm();
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   private _createForm(): void {
     this.form = new FormGroup({
-      login: new FormControl("user@example.com", [Validators.required, Validators.maxLength(80)]),
+      login: new FormControl("user@example.com", [Validators.required, Validators.maxLength(20)]),
       password: new FormControl("string", [Validators.required, Validators.maxLength(80)])
     });
   }
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
         password: this.form.get('password')?.value
       }
 
-      this.authService.login(this.login).subscribe(value => {
+      this.authService.login(this.login).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
         this.token = value;
         console.log("Token:\n", this.token);
       });
@@ -45,5 +47,10 @@ export class LoginComponent implements OnInit {
 
       this.form.reset();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -1,4 +1,5 @@
 import { Role } from "./enum/Role";
+import { BaseModel } from "../../../shared";
 
 export interface User extends BaseModel, RefreshToken {
   firstName: string;
@@ -19,10 +20,4 @@ interface RefreshToken extends BaseModel{
   token: string;
   expires: string;
   userId: number;
-}
-
-interface BaseModel {
-  id: number;
-  createdAt: string;
-  updatedAt?: string;
 }
