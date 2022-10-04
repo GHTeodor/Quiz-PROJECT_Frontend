@@ -1,6 +1,6 @@
 import { environment } from "../../environments/environment";
 
-const { baseURL } = environment;
+const { baseURL, quizApi } = environment;
 
 export const urls = {
   users: `${ baseURL }/user`,
@@ -12,5 +12,7 @@ export const urls = {
   refresh: `${ baseURL }/Auth/RefreshToken`,
   logout: `${ baseURL }/Auth/Logout`,
 
-  update: `${ baseURL }/Auth/UpdateById`
+  update: `${ baseURL }/Auth/UpdateById`,
+
+  quiz: `${quizApi}/api.php`
 };

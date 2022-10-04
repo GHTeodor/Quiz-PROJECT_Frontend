@@ -1,0 +1,16 @@
+<h1>Page №{{ page + 1 }}</h1>
+
+<div [ngStyle]="{ 'border': 'solid cornflowerblue medium' }">
+  <small>
+    <u>Category:</u> <i>{{ quiz.category }}</i> |
+    <u>Type:</u> <i>{{ quiz.type }}</i> |
+    <u>Difficulty:</u> <i>{{ quiz.difficulty }}</i> |
+  </small>
+  <h2>Question: {{ quiz.question }}</h2>
+
+  <ng-container *ngFor="let answer of answers">
+    <button (click)="checkIsAnswerCorrect($event)" [disabled]=isCorrect>{{ answer }}</button>
+  </ng-container>
+
+  <div>{{ isCorrect ? '✔': '✗' }}|({{ mistakes }}/{{ answers.length - 1 }})mistake(s)</div>
+</div>

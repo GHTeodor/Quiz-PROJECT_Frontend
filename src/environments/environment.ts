@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
 
-  baseURL: "https://localhost:7777"
+  baseURL: "https://localhost:7777",
+  quizApi: 'https://opentdb.com'
+
 };
 
 /*
