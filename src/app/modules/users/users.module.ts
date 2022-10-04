@@ -1,22 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatListModule } from "@angular/material/list";
+import { MatButtonModule } from "@angular/material/button";
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './components/users/users.component';
-import { UserResolver, UserService } from "./services";
+import { UsersResolver, UserService } from "./services";
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
   declarations: [
-    UsersComponent
+    UsersComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    MatListModule,
+    MatButtonModule
   ],
   providers: [
     UserService,
-    UserResolver
+    UsersResolver
   ]
 })
 export class UsersModule { }
