@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 
@@ -13,13 +20,16 @@ import { QuizForm } from "../../interfaces";
 })
 export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
   quiz!: any[];
+  pages!: number[];
+  page: number = 0;
+  private visitedPages!: number[];
+  @ViewChildren('button') private readonly buttons!: QueryList<ElementRef>;
   private quizForm!: QuizForm;
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly router: Router,
               private readonly dataService: DataService,
-              private readonly quizService: QuizService) {
-  }
+              private readonly quizService: QuizService) { }
 
   ngOnInit(): void {
     this.dataService.storage.pipe(takeUntil(this.unsubscribe$)).subscribe(value => this.quizForm = value);
@@ -29,9 +39,28 @@ export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(value => {
           this.quiz = value.results;
-          if (!value.results.length) this.router.navigate(['questions']);
+          this.pages = [...Array(value.results.length).keys()];
         });
     }
+  }
+
+  goPage(page: number): void {
+    if (!this.visitedPages) this.visitedPages = [0];
+
+    this.buttons.forEach(({nativeElement: button}, index: number) => {
+      if (index === page) {
+        button.style.border = 'yellow solid thin';
+        button.style.backgroundColor = 'lightblue';
+      } else if (!this.visitedPages.includes(index)) {
+        this.visitedPages.push(page);
+      } else {
+        button.style.backgroundColor = 'lightpink';
+        button.style.border = 'transparent solid thin';
+      }
+    });
+
+    // this.router.navigate(['questions']);
+    this.page = page;
   }
 
   ngOnDestroy(): void {

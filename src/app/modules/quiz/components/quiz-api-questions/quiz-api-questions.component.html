@@ -1,3 +1,13 @@
 <h1>Questions</h1>
 
-<app-quiz-api-question *ngFor="let q of quiz; index as i" [quiz]="q" [page]="i"></app-quiz-api-question>
+<hr />
+
+<ng-container *ngFor="let page of pages">
+  <button #button (click)="goPage(page)" [ngStyle]="{'margin': '3px'}">{{page + 1}}</button>
+</ng-container>
+
+<hr />
+
+<ng-container *ngFor="let q of quiz; index as i">
+  <app-quiz-api-question *ngIf="page === i" [quiz]="q" [page]="page" [index]="i"></app-quiz-api-question>
+</ng-container>
