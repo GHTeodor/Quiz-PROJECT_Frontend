@@ -17,11 +17,11 @@ import { QuizApiQuestionComponent } from './components/quiz-api-question/quiz-ap
     QuizApiQuestionsComponent,
     QuizApiQuestionComponent
   ],
-    imports: [
-        CommonModule,
-        QuestionsRoutingModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    QuestionsRoutingModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     QuestionService,
     QuestionResolver

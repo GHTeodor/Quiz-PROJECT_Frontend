@@ -32,7 +32,7 @@ export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
               private readonly quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.dataService.storage.pipe(takeUntil(this.unsubscribe$)).subscribe(value => this.quizForm = value);
+    this.dataService.quizFormStorage.pipe(takeUntil(this.unsubscribe$)).subscribe(value => this.quizForm = value);
 
     if (this.quizForm) {
       this.quizService.getQuiz(this.quizForm)
@@ -46,14 +46,13 @@ export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
 
   goPage(page: number): void {
     if (!this.visitedPages) this.visitedPages = [0];
+    if (!this.visitedPages.includes(page)) this.visitedPages.push(page);
 
     this.buttons.forEach(({nativeElement: button}, index: number) => {
       if (index === page) {
         button.style.border = 'yellow solid thin';
         button.style.backgroundColor = 'lightblue';
-      } else if (!this.visitedPages.includes(index)) {
-        this.visitedPages.push(page);
-      } else {
+      } else if (this.visitedPages.includes(index)) {
         button.style.backgroundColor = 'lightpink';
         button.style.border = 'transparent solid thin';
       }

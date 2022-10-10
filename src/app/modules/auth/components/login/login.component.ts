@@ -5,6 +5,7 @@ import { Subject, takeUntil } from "rxjs";
 
 import { Login } from "../../interfaces";
 import { AuthService } from "../../services";
+import { DataService } from "../../../../shared";
 
 @Component({
   selector: 'app-login',
@@ -14,11 +15,12 @@ import { AuthService } from "../../services";
 export class LoginComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   login!: Login;
-  token!: string;
+  token!: { accessToken: string, id: number };
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly router: Router,
-              private readonly authService: AuthService) { }
+              private readonly authService: AuthService,
+              private readonly dataService: DataService) { }
 
   ngOnInit(): void {
     this._createForm();
@@ -26,8 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private _createForm(): void {
     this.form = new FormGroup({
-      login: new FormControl("user@example.com", [Validators.required, Validators.maxLength(20)]),
-      password: new FormControl("string", [Validators.required, Validators.maxLength(80)])
+      login: new FormControl("MainUser@example.com", [Validators.required, Validators.maxLength(20)]),
+      password: new FormControl("stringst", [Validators.required, Validators.maxLength(80)])
     });
   }
 
@@ -40,10 +42,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       this.authService.login(this.login).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
         this.token = value;
-        console.log("Token:\n", this.token);
+        console.log(this.token);
+        this.dataService.auth_token.next(this.token.accessToken);
+        this.router.navigate([`users/${this.token.id}`]);
       });
-
-      //this.router.navigate(['users']);
 
       this.form.reset();
     }
