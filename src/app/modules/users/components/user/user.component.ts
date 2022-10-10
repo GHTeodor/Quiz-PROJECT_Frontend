@@ -18,7 +18,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { userData } ) => {
       this.user = userData;
-      console.log(this.user);
     });
   }
 

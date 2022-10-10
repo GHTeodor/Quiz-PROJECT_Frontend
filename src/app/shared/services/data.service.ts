@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  storage = new BehaviorSubject<any>(null);
+  quizFormStorage = new BehaviorSubject<any>(null);
+  auth_token = new BehaviorSubject<string>("");
 
   constructor() { }
 }

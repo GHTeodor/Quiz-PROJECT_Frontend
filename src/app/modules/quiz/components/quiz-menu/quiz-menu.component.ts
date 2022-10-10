@@ -40,7 +40,7 @@ export class QuizMenuComponent implements OnInit {
         type: this.form.get('type')?.value
       }
 
-      this.dataService.storage.next(quizForm);
+      this.dataService.quizFormStorage.next(quizForm);
 
       this.router.navigate(['questions/api-questions']);
     }

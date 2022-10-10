@@ -16,7 +16,7 @@ export class RefreshComponent implements OnInit, OnDestroy {
               private readonly authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.refreshToken().pipe(takeUntil(this.unsubscribe$)).subscribe();
+    this.authService.refreshToken().pipe(takeUntil(this.unsubscribe$)).subscribe(refresh => console.log(refresh));
   }
 
   ngOnDestroy(): void {
