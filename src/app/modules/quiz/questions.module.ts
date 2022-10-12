@@ -8,6 +8,7 @@ import { QuestionResolver, QuestionService } from "./services";
 import { QuizMenuComponent } from './components/quiz-menu/quiz-menu.component';
 import { QuizApiQuestionsComponent } from './components/quiz-api-questions/quiz-api-questions.component';
 import { QuizApiQuestionComponent } from './components/quiz-api-question/quiz-api-question.component';
+import { QuestionComponent } from './components/question/question.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { QuizApiQuestionComponent } from './components/quiz-api-question/quiz-ap
     QuestionsComponent,
     QuizMenuComponent,
     QuizApiQuestionsComponent,
-    QuizApiQuestionComponent
+    QuizApiQuestionComponent,
+    QuestionComponent
   ],
   imports: [
     CommonModule,

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 
 import { urls } from "../../../constants";
-import {QuizForm} from "../interfaces";
+import {ApiQuestion, FullApiQuestion, QuizForm} from "../interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class QuizService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getQuiz({amount, difficulty, category, type}: QuizForm): Observable<any> {
+  getQuiz({amount, difficulty, category, type}: QuizForm): Observable<ApiQuestion[]> {
 
     let params = new HttpParams().append('amount', amount.toString());
 
@@ -28,8 +28,8 @@ export class QuizService {
       params = params.append('type', type.toString());
     }
 
-    return this.http.get<any>(urls.quiz, { params }).pipe(
-      map(value => value),
+    return this.http.get<FullApiQuestion>(urls.quiz, {params}).pipe(
+      map(value => value.results),
       catchError(err => throwError(err))
     );
   }

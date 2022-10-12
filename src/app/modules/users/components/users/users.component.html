@@ -2,6 +2,7 @@
 
 <mat-list *ngFor="let user of users">
 
+  <a mat-stroked-button routerLink="update/{{user.id}}">Update</a>
   <mat-list-item>Id: {{ user.id }}</mat-list-item>
   <mat-list-item>firstName: {{ user.firstName }}</mat-list-item>
   <mat-list-item>lastName: {{ user.lastName }}</mat-list-item>

@@ -1,28 +1,41 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 
 import { urls } from "../../../constants";
 import { Question } from "../interfaces";
-import {DataService} from "../../../shared";
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
 
-  constructor(private readonly http: HttpClient,
-              private readonly dataService: DataService) { }
+  constructor(private readonly http: HttpClient) { }
 
   getAll(): Observable<Question[]> {
-    let token;
-    this.dataService.auth_token.subscribe(accessToken => token = accessToken);
+    return this.http.get<Question[]>(urls.questions).pipe(
+      map(value => value),
+      catchError(err => throwError(err))
+    );
+  }
 
-    const header = {
-      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    };
+  getById(id: number): Observable<Question> {
+    return this.http.get<Question>(`${urls.questions}/${id}`).pipe(
+      map(value => value),
+      catchError(err => throwError(err))
+    );
+  }
 
-    return this.http.get<Question[]>(urls.questions, header).pipe(
+  addQuestion(question: Question): Observable<Question> {
+    return this.http.post<Question>(urls.questions, question);
+  }
+
+  updateQuestionById(id: number, question: Question): Observable<Question> {
+    return this.http.put<Question>(`${urls.questions}/${id}`, question);
+  }
+
+  deleteById(id: number): Observable<string> {
+    return this.http.delete<string>(`${urls.questions}/${id}`).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );

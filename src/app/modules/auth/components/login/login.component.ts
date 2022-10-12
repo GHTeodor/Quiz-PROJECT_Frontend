@@ -5,7 +5,6 @@ import { Subject, takeUntil } from "rxjs";
 
 import { Login } from "../../interfaces";
 import { AuthService } from "../../services";
-import { DataService } from "../../../../shared";
 
 @Component({
   selector: 'app-login',
@@ -15,12 +14,10 @@ import { DataService } from "../../../../shared";
 export class LoginComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   login!: Login;
-  token!: { accessToken: string, id: number };
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly router: Router,
-              private readonly authService: AuthService,
-              private readonly dataService: DataService) { }
+              private readonly authService: AuthService) { }
 
   ngOnInit(): void {
     this._createForm();
@@ -28,8 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private _createForm(): void {
     this.form = new FormGroup({
-      login: new FormControl("MainUser@example.com", [Validators.required, Validators.maxLength(20)]),
-      password: new FormControl("stringst", [Validators.required, Validators.maxLength(80)])
+      login: new FormControl("Identity@gmail.com", [Validators.required, Validators.maxLength(20)]),
+      password: new FormControl("string", [Validators.required, Validators.maxLength(80)])
     });
   }
 
@@ -40,11 +37,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: this.form.get('password')?.value
       }
 
-      this.authService.login(this.login).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
-        this.token = value;
-        console.log(this.token);
-        this.dataService.auth_token.next(this.token.accessToken);
-        this.router.navigate([`users/${this.token.id}`]);
+      this.authService.login(this.login).pipe(takeUntil(this.unsubscribe$)).subscribe(token => {
+        console.log(token);
+        this.authService.setToken(token.accessToken);
+        this.router.navigate([`users/${token.id}`]);
       });
 
       this.form.reset();

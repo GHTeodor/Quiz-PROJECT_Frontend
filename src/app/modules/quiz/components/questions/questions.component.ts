@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 
-import {Question} from "../../interfaces";
+import { Question } from "../../interfaces";
 
 @Component({
   selector: 'app-questions',
@@ -16,10 +16,8 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   constructor(private readonly activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionsData } ) => {
-      this.questions = questionsData;
-      console.log(this.questions);
-    });
+    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionsData } ) =>
+      this.questions = questionsData);
   }
 
   ngOnDestroy(): void {

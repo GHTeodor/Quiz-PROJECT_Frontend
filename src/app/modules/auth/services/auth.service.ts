@@ -3,12 +3,13 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 
 import { urls } from "../../../constants";
-import { Login, Registration } from "../interfaces";
+import { Login, Registration, TokenResponse } from "../interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly accessTokenKey: string = "accessTokenKey";
 
   constructor(private readonly http: HttpClient) { }
 
@@ -19,15 +20,15 @@ export class AuthService {
     );
   }
 
-  login(loginData: Login): Observable<any> {
-    return this.http.post<any>(urls.login, loginData).pipe(
+  login(loginData: Login): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(urls.login, loginData).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
-  refreshToken(): Observable<any> {
-    return this.http.post(urls.refresh, {}).pipe(
+  refreshToken(): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(urls.refresh, {}).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
@@ -40,10 +41,17 @@ export class AuthService {
     );
   }
 
-  updateById(id: number, updatedUser: any): Observable<any> {
-    return this.http.put(`${urls.update}/${id}`, updatedUser).pipe(
-      map(value => value),
-      catchError(err => throwError(err))
-    );
+//  -------------------------------------------------------------------
+
+  setToken(accessToken: string): void {
+    localStorage.setItem(this.accessTokenKey, accessToken);
+  }
+
+  getAccessToken(): string {
+    return localStorage.getItem(this.accessTokenKey) as string;
+  }
+
+  deleteToken(): void {
+    localStorage.removeItem(this.accessTokenKey);
   }
 }
