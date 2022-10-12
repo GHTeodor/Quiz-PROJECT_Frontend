@@ -16,7 +16,13 @@ export class RefreshComponent implements OnInit, OnDestroy {
               private readonly authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.refreshToken().pipe(takeUntil(this.unsubscribe$)).subscribe(refresh => console.log(refresh));
+    this.authService.refreshToken()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(refresh => {
+        console.log(refresh);
+        this.authService.setToken(refresh.accessToken);
+        this.router.navigate([`users/${refresh.id}`]);
+      });
   }
 
   ngOnDestroy(): void {

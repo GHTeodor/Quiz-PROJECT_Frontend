@@ -11,7 +11,7 @@ import { Subject, takeUntil } from "rxjs";
 
 import { DataService } from "../../../../shared";
 import { QuizService } from "../../services";
-import { QuizForm } from "../../interfaces";
+import { ApiQuestion, QuizForm } from "../../interfaces";
 
 @Component({
   selector: 'app-quiz-api-questions',
@@ -19,7 +19,7 @@ import { QuizForm } from "../../interfaces";
   styleUrls: ['./quiz-api-questions.component.scss']
 })
 export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
-  quiz!: any[];
+  quiz!: ApiQuestion[];
   pages!: number[];
   page: number = 0;
   private visitedPages!: number[];
@@ -38,8 +38,8 @@ export class QuizApiQuestionsComponent implements OnInit, OnDestroy {
       this.quizService.getQuiz(this.quizForm)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(value => {
-          this.quiz = value.results;
-          this.pages = [...Array(value.results.length).keys()];
+          this.quiz = value;
+          this.pages = [...Array(value.length).keys()];
         });
     }
   }

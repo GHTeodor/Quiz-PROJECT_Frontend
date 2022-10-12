@@ -1,4 +1,7 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+
+import { QuestionService } from "../../services";
+import { ApiQuestion, Question } from "../../interfaces";
 
 @Component({
   selector: 'app-quiz-api-question',
@@ -10,12 +13,12 @@ export class QuizApiQuestionComponent implements OnInit, OnChanges {
   @Input() page!: number;
   @Input() index!: number;
   @ViewChildren('button') private readonly buttons!: QueryList<ElementRef>;
-  question!: any;
+  question!: ApiQuestion;
   answers!: any[];
   mistakes: number = 0;
   isCorrect: boolean = false;
 
-  constructor() { }
+  constructor(private readonly questionService: QuestionService) { }
 
   ngOnInit(): void {
     if (this.index === this.page) this.question = this.quiz;
@@ -48,5 +51,20 @@ export class QuizApiQuestionComponent implements OnInit, OnChanges {
       this.mistakes++;
       button.style.backgroundColor = "red";
     }
+  }
+
+  addToFavourite(): void {
+    console.log(this.question);
+    const question: Question = {
+      category: this.question.category,
+      type: this.question.type,
+      difficulty: this.question.difficulty,
+      titleQuestion: this.question.question,
+      correctAnswer: this.question.correct_answer,
+      incorrectAnswers: [{
+          incorrectAnswer: this.question.incorrect_answers[0]
+        }]
+    };
+    this.questionService.addQuestion(question).subscribe(value => console.log(value));
   }
 }

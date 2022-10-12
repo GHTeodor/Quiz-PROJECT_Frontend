@@ -8,12 +8,11 @@ import { Question } from "../../interfaces";
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionResolver implements Resolve<Question> {
+export class QuestionsResolver implements Resolve<Question[]> {
 
   constructor(private readonly questionService: QuestionService) {  }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Question> | Promise<Question> | Question {
-    const { id } = route.params;
-    return this.questionService.getById(id);
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Question[]> | Promise<Question[]> | Question[] {
+    return this.questionService.getAll();
   }
 }

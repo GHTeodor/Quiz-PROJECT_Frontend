@@ -1,6 +1,8 @@
+import { Category, Difficulty, Type } from "./enums";
+
 export interface QuizForm {
   amount: number;
-  category: string;
-  difficulty: string;
-  type: string;
+  category?: Category;
+  difficulty?: Difficulty;
+  type?: Type;
 }

@@ -16,10 +16,8 @@ export class LogoutComponent implements OnInit, OnDestroy {
               private readonly authService: AuthService) { }
 
   ngOnInit(): void {
-  }
-
-  logout(): void {
     this.authService.logout().pipe(takeUntil(this.unsubscribe$)).subscribe();
+    this.authService.deleteToken();
   }
 
   ngOnDestroy(): void {

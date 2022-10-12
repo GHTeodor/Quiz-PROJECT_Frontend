@@ -1,0 +1,17 @@
+<h1>Question!</h1>
+
+<small>
+  <i>Category:</i> <u>{{question.category}}</u>
+  <i>Difficulty:</i> <u>{{question.difficulty}}</u>
+  <i>Type:</i> <u>{{question.type}}</u>
+</small>
+
+<h3>Title: {{question.titleQuestion}}</h3>
+
+<li>Correct: {{question.correctAnswer}}</li>
+
+<ul *ngFor="let answer of question.incorrectAnswers">
+  <li>Incorrect: {{answer.incorrectAnswer}}</li>
+</ul>
+<button (click)="delete()">X</button>
+<button (click)="update()">Update</button>

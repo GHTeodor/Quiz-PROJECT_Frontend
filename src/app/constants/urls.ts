@@ -12,7 +12,5 @@ export const urls = {
   refresh: `${ baseURL }/Auth/RefreshToken`,
   logout: `${ baseURL }/Auth/Logout`,
 
-  update: `${ baseURL }/UpdateById`,
-
   quiz: `${quizApi}/api.php`
 };
