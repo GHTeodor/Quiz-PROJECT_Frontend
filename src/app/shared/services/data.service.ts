@@ -9,6 +9,7 @@ import { QuizForm } from "../../modules/quiz/interfaces";
 export class DataService {
 
   quizFormStorage = new BehaviorSubject<QuizForm>({ amount: 10 });
+  isDark = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 }

@@ -1,0 +1,48 @@
+div.wrapper {
+  height: calc(100vh - 9px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  header {
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  }
+
+  div.content {
+    overflow-y: scroll;
+    word-break: break-all;
+  }
+
+  footer {
+    border: lightcyan thin double;
+    border-radius: 8px;
+    text-align: end;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 14px 28px, rgba(0, 0, 0, 0.22) 0 10px 10px;
+
+    span {
+      animation: 13s ease-in 1s infinite reverse both running footerText;
+    }
+
+    @keyframes footerText {
+      from {
+        padding-right: 0;
+        color: red;
+      }
+      45% {
+        padding-right: 35%;
+        color: yellowgreen;
+      }
+      91% {
+        padding-right: 71%;
+        color: orange;
+      }
+      45% {
+        padding-right: 35%;
+        color: greenyellow;
+      }
+      to {
+        padding-right: 0;
+        color: orangered;
+      }
+    }
+  }
+}
