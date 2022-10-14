@@ -7,10 +7,13 @@ export const urls = {
   questions: `${ baseURL }/question`,
   answers: `${ baseURL }/answer`,
 
-  registration: `${ baseURL }/Auth/Registration`,
-  login: `${ baseURL }/Auth/Login`,
-  refresh: `${ baseURL }/Auth/RefreshToken`,
-  logout: `${ baseURL }/Auth/Logout`,
+  registration: `${ baseURL }/auth/registration`,
+  login: `${ baseURL }/auth/login`,
+  refresh: `${ baseURL }/auth/refreshToken`,
+  logout: `${ baseURL }/auth/logout`,
+  decodeToken: `${ baseURL }/auth/get`,
+
+  mailKit: `${ baseURL }/mailkit`,
 
   quiz: `${quizApi}/api.php`
 };

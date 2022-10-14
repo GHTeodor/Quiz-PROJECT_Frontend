@@ -8,6 +8,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RefreshComponent } from './components/refresh/refresh.component';
+import { DecodeTokenComponent } from './components/decode-token/decode-token.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { RefreshComponent } from './components/refresh/refresh.component';
     LoginComponent,
     LogoutComponent,
     RefreshComponent,
+    DecodeTokenComponent,
   ],
   imports: [
     CommonModule,

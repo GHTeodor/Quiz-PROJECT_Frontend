@@ -5,6 +5,7 @@ import { RefreshComponent } from "./components/refresh/refresh.component";
 import { RegistrationComponent } from "./components/registration/registration.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
+import { DecodeTokenComponent } from "./components/decode-token/decode-token.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'refresh', component: RefreshComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'decode-token', component: DecodeTokenComponent }
 ];
 
 @NgModule({

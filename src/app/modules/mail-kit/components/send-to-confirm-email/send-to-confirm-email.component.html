@@ -1,0 +1,6 @@
+<form [formGroup]="form" (ngSubmit)="confirm()">
+  <label for="email">Confirm Email</label>
+  <input type="email" id="email" formControlName="email">
+
+  <button>{{email ? "Confirm: " + email : "Confirm:"}}</button>
+</form>
