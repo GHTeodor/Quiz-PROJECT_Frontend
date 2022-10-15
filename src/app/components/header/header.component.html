@@ -1,15 +1,20 @@
 <div>
 
-  <a mat-stroked-button routerLink="users" routerLinkActive="active">USERS</a> |
+  <a mat-stroked-button routerLink="users" routerLinkActive="active">My account</a> |
 
-  <a mat-stroked-button routerLink="questions" routerLinkActive="active">QUIZ</a> |
+  <a mat-stroked-button routerLink="questions" routerLinkActive="active">Home</a> |
   <a mat-stroked-button routerLink="questions/api-questions" routerLinkActive="active">API-QUESTIONS</a> |
-  <a mat-stroked-button routerLink="questions/questions" routerLinkActive="active">QUESTIONS</a> |
+  <a mat-stroked-button routerLink="questions/questions" routerLinkActive="active">Favourites</a> |
 
   <a mat-stroked-button routerLink="auth/registration" routerLinkActive="active">Registration</a> |
-  <a mat-stroked-button routerLink="auth/login" routerLinkActive="active">LogIn</a> |
+  <a *ngIf="!isAuthorized" mat-stroked-button routerLink="auth/login" routerLinkActive="active">LogIn</a> |
+  <a *ngIf="isAuthorized" mat-stroked-button routerLink="auth/logout" routerLinkActive="active">LogOut</a> |
   <a mat-stroked-button routerLink="auth/refresh" routerLinkActive="active">Refresh</a> |
-  <a mat-stroked-button routerLink="auth/logout" routerLinkActive="active">LogOut</a> |
+  <a mat-stroked-button routerLink="auth/decode-token" routerLinkActive="active">Decode token</a> |
 
+  <a mat-stroked-button routerLink="mailkit" routerLinkActive="active">MailKit</a> |
 
+  <a mat-stroked-button routerLink="about-us" routerLinkActive="active">About us</a> |
+
+  <app-dark-mode></app-dark-mode>
 </div>

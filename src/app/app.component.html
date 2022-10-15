@@ -1,9 +1,5 @@
-<div>
+<div [ngClass]="isDark ? 'dark' : 'light'">
 
-  <div>
-    <app-header></app-header>
-    <hr />
-  </div>
-  <router-outlet></router-outlet>
-  <footer></footer>
+  <app-layout></app-layout>
+
 </div>

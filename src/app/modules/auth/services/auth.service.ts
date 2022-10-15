@@ -41,6 +41,13 @@ export class AuthService {
     );
   }
 
+  decodeToken(): Observable<any> {
+    return this.http.get<any>(urls.decodeToken).pipe(
+      map(value => value),
+      catchError(err => throwError(err))
+    );
+  }
+
 //  -------------------------------------------------------------------
 
   setToken(accessToken: string): void {
