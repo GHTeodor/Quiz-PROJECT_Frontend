@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'users', loadChildren: () => import('./modules').then(m => m.UsersModule) },
   { path: 'questions', loadChildren: () => import('./modules').then(m => m.QuestionsModule) },
   { path: 'auth', loadChildren: () => import('./modules').then(m => m.AuthModule) },
+  { path: 'admin', loadChildren: () => import('./modules').then(m => m.AdminModule) },
   { path: 'mailkit', loadChildren: () => import('./modules').then(m => m.MailKitModule) },
   { path: 'about-us', component: AboutUsComponent },
   { path: '**', component: Page404Component }

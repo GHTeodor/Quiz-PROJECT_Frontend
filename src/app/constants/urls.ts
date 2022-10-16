@@ -13,7 +13,8 @@ export const urls = {
   logout: `${ baseURL }/auth/logout`,
   decodeToken: `${ baseURL }/auth/get`,
 
+  admin: `${ baseURL }/admin`,
   mailKit: `${ baseURL }/mailkit`,
 
-  quiz: `${quizApi}/api.php`
+  quiz: `${ quizApi }/api.php`
 };

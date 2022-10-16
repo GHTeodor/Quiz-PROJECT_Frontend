@@ -8,6 +8,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { NgxEchartsModule } from "ngx-echarts";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +41,7 @@ import { AboutUsDirective } from './directives';
     MatToolbarModule,
     MatIconModule,
     MatSlideToggleModule,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')})
   ],
   providers: [
     {
