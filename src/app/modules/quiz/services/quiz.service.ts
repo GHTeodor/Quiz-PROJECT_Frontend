@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 
 import { urls } from "../../../constants";
-import {ApiQuestion, FullApiQuestion, QuizForm} from "../interfaces";
+import { ApiQuestion, FullApiQuestion, QuizForm } from "../interfaces";
 
 @Injectable({
   providedIn: 'root'

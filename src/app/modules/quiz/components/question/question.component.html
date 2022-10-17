@@ -6,12 +6,47 @@
   <i>Type:</i> <u>{{question.type}}</u>
 </small>
 
-<h3>Title: {{question.titleQuestion}}</h3>
+<h3 matLine>Title: {{question.titleQuestion}}</h3>
 
-<li>Correct: {{question.correctAnswer}}</li>
+<p matLine>Correct: {{question.correctAnswer}}</p>
 
-<ul *ngFor="let answer of question.incorrectAnswers">
-  <li>Incorrect: {{answer.incorrectAnswer}}</li>
-</ul>
-<button (click)="delete()">X</button>
-<button (click)="update()">Update</button>
+<mat-list *ngFor="let answer of question.incorrectAnswers">
+  <mat-list-item>Incorrect: {{answer.incorrectAnswer}}</mat-list-item>
+</mat-list>
+
+<button mat-stroked-button (click)="update()">Update</button>
+<button mat-stroked-button (click)="delete()">X</button>
+
+<mat-divider></mat-divider>
+
+<!--<form [formGroup]="form" (ngSubmit)="update()">-->
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <input matInput placeholder="Category" formControlName="category"/>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <input matInput placeholder="type" formControlName="type"/>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <input matInput placeholder="difficulty" formControlName="difficulty"/>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <input matInput placeholder="titleQuestion" formControlName="titleQuestion"/>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <input matInput placeholder="correctAnswer" formControlName="correctAnswer"/>-->
+<!--  </mat-form-field>-->
+
+<!--  <ng-container formArrayName="incorrectAnswers">-->
+<!--    <ng-container *ngFor="let incorrectAnswer of incorrectAnswers['incorrectAnswer']">-->
+<!--      <mat-form-field appearance="legacy">-->
+<!--        <input matInput placeholder="Category" formControlName="incorrectAnswer"/>-->
+<!--      </mat-form-field>-->
+<!--    </ng-container>-->
+<!--  </ng-container>-->
+
+<!--  <button mat-stroked-button>Update</button>-->
+<!--</form>-->

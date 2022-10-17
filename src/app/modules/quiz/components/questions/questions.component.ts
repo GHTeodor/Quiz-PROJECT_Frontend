@@ -24,4 +24,8 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
+  scroll(target: HTMLElement) {
+    target.scrollIntoView();
+  }
 }

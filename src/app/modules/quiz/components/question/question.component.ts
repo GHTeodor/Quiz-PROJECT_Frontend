@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subject, takeUntil} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { Subject, takeUntil } from "rxjs";
 
-import {Question} from "../../interfaces";
-import {QuestionService} from "../../services";
-import {Category, Difficulty, Type} from "../../interfaces/enums";
+import { Question } from "../../interfaces";
+import { QuestionService } from "../../services";
+import { Category, Difficulty, Type } from "../../interfaces/enums";
 
 @Component({
   selector: 'app-question',
@@ -13,17 +13,29 @@ import {Category, Difficulty, Type} from "../../interfaces/enums";
 })
 export class QuestionComponent implements OnInit, OnDestroy {
   question!: Question;
+  // form!: FormGroup;
   private id!: number;
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly activatedRoute: ActivatedRoute,
-              private readonly questionService: QuestionService) { }
+              private readonly questionService: QuestionService,
+              /*private readonly fb: FormBuilder*/) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionData } ) => {
       this.question = questionData;
       this.id = questionData.id;
     });
+
+    // this.form = this.fb.group({
+    //   category: ['', [Validators.required]],
+    //   type: ['', [Validators.required]],
+    //   difficulty: ['', [Validators.required]],
+    //   titleQuestion: ['', [Validators.required]],
+    //   correctAnswer: ['', [Validators.required]],
+    //   incorrectAnswers: this.fb.array([{incorrectAnswer: ['']}])
+    // });
+    // console.log("FORM:=============",this.form);
   }
 
   update(): void {
@@ -49,6 +61,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(value => console.log(value));
   }
+
+  // get incorrectAnswers(): any {
+  //   return this.form.controls["incorrectAnswers"] as FormArray;
+  // }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

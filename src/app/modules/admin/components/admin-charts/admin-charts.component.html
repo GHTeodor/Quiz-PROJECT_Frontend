@@ -1,0 +1,17 @@
+<h1>Charts!</h1>
+
+<small>Categories, Types, Difficulties</small>
+
+<div class="wrapper">
+  <div echarts title="Categories" class="chart" [options]="pieChartCategoryOptions">
+    <mat-spinner color="warn"></mat-spinner>
+  </div>
+
+  <div echarts title="Types" class="chart" [options]="pieChartTypeOptions">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
+
+  <div echarts title="Difficulties" class="chart" [options]="pieChartDifficultyOptions">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
