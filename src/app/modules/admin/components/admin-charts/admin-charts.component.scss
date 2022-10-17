@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .chart {
+    border: thick double #32a1ce;
+    border-radius: 9px;
+    padding: 30px;
+
+    width: 500px;
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 522px) {
+  .chart {
+    padding: 0;
+    width: 90vw !important;
+  }
+}

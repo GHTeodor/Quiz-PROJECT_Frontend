@@ -1,0 +1,54 @@
+<h1>Question!</h1>
+
+<small>
+  <i>Category:</i> <u>{{question.category}}</u>
+  <i>Difficulty:</i> <u>{{question.difficulty}}</u>
+  <i>Type:</i> <u>{{question.type}}</u>
+</small>
+
+<h3 matLine>Title: {{question.titleQuestion}}</h3>
+
+<p matLine>Correct: {{question.correctAnswer}}</p>
+
+<mat-list *ngFor="let answer of question.incorrectAnswers">
+  <mat-list-item>Incorrect: {{answer.incorrectAnswer}}</mat-list-item>
+</mat-list>
+
+<button mat-stroked-button color="accent" (click)="update()">Update</button>
+<button mat-stroked-button color="warn" (click)="delete()">X</button>
+
+<mat-divider></mat-divider>
+
+<form [formGroup]="form" (ngSubmit)="update()">
+  <mat-form-field appearance="legacy">
+    <input matInput placeholder="Category" formControlName="category"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <input matInput placeholder="type" formControlName="type"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <input matInput placeholder="difficulty" formControlName="difficulty"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <input matInput placeholder="titleQuestion" formControlName="titleQuestion"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <input matInput placeholder="correctAnswer" formControlName="correctAnswer"/>
+  </mat-form-field>
+
+  <ng-container formArrayName="incorrectAnswers">
+    <ng-container *ngFor="let incorrectAnswer of question.incorrectAnswers; index as i">
+      <form [formGroupName]="i">
+      <mat-form-field appearance="legacy">
+        <input matInput placeholder="Incorrect answer" [defaultValue]="incorrectAnswer.incorrectAnswer" formControlName="incorrectAnswer"/>
+      </mat-form-field>
+      </form>
+    </ng-container>
+  </ng-container>
+
+  <button mat-raised-button color="accent">Update</button>
+</form>

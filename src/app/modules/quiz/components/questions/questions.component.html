@@ -1,0 +1,27 @@
+<h1>QUESTIONS!</h1>
+
+<ng-container *ngIf="questions.length">
+<mat-list *ngFor="let question of questions">
+  <small>
+    <i>Category:</i> <u>{{question.category}}</u>
+    <i>Difficulty:</i> <u>{{question.difficulty}}</u>
+    <i>Type:</i> <u>{{question.type}}</u>
+  </small>
+
+  <h3>Title: {{question.titleQuestion}}</h3>
+
+  <mat-list-item>Correct: {{question.correctAnswer}}</mat-list-item>
+
+
+  <mat-list *ngFor="let answer of question.incorrectAnswers">
+    <mat-list-item>Incorrect: {{answer.incorrectAnswer}}</mat-list-item>
+  </mat-list>
+
+  <a routerLink="{{question.id}}" (click)="scroll(target)">-{{question.id}}></a>
+</mat-list>
+</ng-container>
+<ng-container *ngIf="questions.length === 0">[]</ng-container>
+
+<mat-divider></mat-divider>
+
+<router-outlet #target></router-outlet>

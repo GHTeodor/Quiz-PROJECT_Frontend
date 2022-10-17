@@ -1,0 +1,17 @@
+<div>
+  <small>
+    <u>Category:</u> <i>{{ question.category }}</i> |
+    <u>Type:</u> <i>{{ question.type }}</i> |
+    <u>Difficulty:</u> <i>{{ question.difficulty }}</i> |
+  </small>
+
+  <h2>{{index + 1}}: {{ question.question }}</h2>
+
+  <ng-container *ngFor="let answer of answers index as i">
+    <button #button (click)="checkIsAnswerCorrect(i)" [disabled]=isCorrect>{{ answer }}</button>
+  </ng-container>
+
+  <div>{{ isCorrect ? '✔': '✗' }}|({{ mistakes }}/{{ answers.length - 1 }})mistake(s)</div>
+</div>
+
+<button mat-stroked-button (click)="addToFavourite()" aria-label="Show an example snack-bar">Add to Favourite 💗</button>
