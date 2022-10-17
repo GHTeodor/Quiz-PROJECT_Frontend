@@ -57,7 +57,6 @@ export class QuizApiQuestionComponent implements OnInit, OnChanges {
   }
 
   addToFavourite(): void {
-    console.log(this.question);
     const question: Question = {
       category: this.question.category,
       type: this.question.type,
