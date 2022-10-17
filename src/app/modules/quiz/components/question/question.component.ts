@@ -22,7 +22,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
               /*private readonly fb: FormBuilder*/) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionData } ) => {
+    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(( { questionData } ) => {
       this.question = questionData;
       this.id = questionData.id;
     });
