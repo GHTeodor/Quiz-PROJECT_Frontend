@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { Question } from "../../interfaces";
 import { QuestionService } from "../../services";
-import { Category, Difficulty, Type } from "../../interfaces/enums";
 
 @Component({
   selector: 'app-question',
@@ -13,38 +13,39 @@ import { Category, Difficulty, Type } from "../../interfaces/enums";
 })
 export class QuestionComponent implements OnInit, OnDestroy {
   question!: Question;
-  // form!: FormGroup;
+  form!: FormGroup;
   private id!: number;
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly activatedRoute: ActivatedRoute,
               private readonly questionService: QuestionService,
-              /*private readonly fb: FormBuilder*/) { }
+              private readonly fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionData } ) => {
-      this.question = questionData;
-      this.id = questionData.id;
-    });
+    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(( { questionData: q } ) => {
+      this.question = q;
+      this.id = q.id;
 
-    // this.form = this.fb.group({
-    //   category: ['', [Validators.required]],
-    //   type: ['', [Validators.required]],
-    //   difficulty: ['', [Validators.required]],
-    //   titleQuestion: ['', [Validators.required]],
-    //   correctAnswer: ['', [Validators.required]],
-    //   incorrectAnswers: this.fb.array([{incorrectAnswer: ['']}])
-    // });
-    // console.log("FORM:=============",this.form);
+        this.form = this.fb.group({
+          category: [q.category, [Validators.required]],
+          type: [q.type, [Validators.required]],
+          difficulty: [q.difficulty, [Validators.required]],
+          titleQuestion: [q.titleQuestion, [Validators.required]],
+          correctAnswer: [q.correctAnswer, [Validators.required]],
+          incorrectAnswers: this.fb.array([]),
+        });
+        this.addIncorrectAnswerFormGroup(q.incorrectAnswers.length);
+    });
   }
 
   update(): void {
     const questionForUpdate: Question = {
-      category: Object.keys(Category)[Object.values(Category).indexOf(Category.Books)],
-      type: Type.Multiple.toString(),
-      difficulty: Difficulty.Easy.toString(),
-      titleQuestion: "To be, or not to be",
-      correctAnswer: "To be",
+      category: this.form.get('category')?.value,
+      type: this.form.get('type')?.value,
+      difficulty: this.form.get('difficulty')?.value,
+      titleQuestion: this.form.get('titleQuestion')?.value,
+      correctAnswer: this.form.get('correctAnswer')?.value,
       incorrectAnswers: [
         {
           incorrectAnswer: "Not to be"
@@ -62,9 +63,22 @@ export class QuestionComponent implements OnInit, OnDestroy {
       .subscribe(value => console.log(value));
   }
 
-  // get incorrectAnswers(): any {
-  //   return this.form.controls["incorrectAnswers"] as FormArray;
-  // }
+  //  =========== Must be corrected
+  public addIncorrectAnswerFormGroup(length: number) {
+    const incorrectAnswers = this.form.get('incorrectAnswers') as FormArray;
+    console.log(incorrectAnswers.controls);
+    console.log(this.form.get('incorrectAnswers')?.value);
+    for (let i = 0; i < length; i++) {
+      incorrectAnswers.push(this.createIncorrectAnswerFormGroup());
+    }
+  }
+
+  private createIncorrectAnswerFormGroup(): FormGroup {
+    return this.fb.group({
+      incorrectAnswer: [''],
+    });
+  }
+  //  =========== Must be corrected
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

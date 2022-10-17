@@ -50,14 +50,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         age: this.form.get('age')?.value
       }
 
-      this.authService.registration(this.registration).pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
-        console.log(value);
-        // next: () => this.router.navigate(['login']),
-        // error: err => this.errorEmail = err.error()
-      });
-      // this.router.navigate(['users']);
-
-      this.form.reset();
+      this.authService.registration(this.registration)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => this.router.navigate(['auth/login']));
     }
   }
 

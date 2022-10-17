@@ -20,6 +20,9 @@ export class LoginComponent implements OnInit, OnDestroy {
               private readonly authService: AuthService) { }
 
   ngOnInit(): void {
+    if (this.authService.getAccessToken()) {
+      this.router.navigate(['auth/logout']);
+    }
     this._createForm();
   }
 
@@ -38,21 +41,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
 
       this.authService.login(this.login).pipe(takeUntil(this.unsubscribe$)).subscribe(token => {
-        console.log(token);
         this.authService.setToken(token.accessToken);
         this.router.navigate([`users/${token.id}`]);
       });
-
-      this.form.reset();
     }
   }
 
   getErrorMessage(field: string): string {
-    if (field && this.form.get(field)?.touched && this.form.get(field)?.hasError('required')) {
-
-        return 'You must enter a value for field: ' + field;
-    }
-    return '';
+    return (field && this.form.get(field)?.touched && this.form.get(field)?.hasError('required'))
+      ? 'You must enter a value for field: ' + field
+      : '';
   }
 
   ngOnDestroy(): void {
