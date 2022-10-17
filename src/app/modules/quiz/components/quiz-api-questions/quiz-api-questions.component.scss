@@ -1,3 +1,11 @@
 button {
   height: 40px;
+  width: 30px;
+  padding: 5px;
+  margin: 2px;
+}
+
+button:hover {
+  color: #32a1ce;
+  text-decoration-line: underline;
 }
