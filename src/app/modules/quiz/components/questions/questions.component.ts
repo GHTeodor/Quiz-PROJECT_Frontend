@@ -16,7 +16,8 @@ export class QuestionsComponent implements OnInit, OnDestroy {
   constructor(private readonly activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(( { questionsData } ) =>
+    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(( { questionsData } ) =>
       this.questions = questionsData);
   }
 
