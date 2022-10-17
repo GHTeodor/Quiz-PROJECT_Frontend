@@ -8,7 +8,7 @@ import { AdminCharts } from "../../interfaces";
 @Injectable({
   providedIn: 'root'
 })
-export class AdminResolver implements Resolve<AdminCharts> {
+export class AdminChartsResolver implements Resolve<AdminCharts> {
 
   constructor(private readonly adminService: AdminService) {  }
 

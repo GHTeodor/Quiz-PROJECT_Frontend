@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from "rxjs";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { MailKitService } from "../../services";
 
@@ -15,12 +16,12 @@ export class SendToConfirmEmailComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly fb: FormBuilder,
-    private readonly mailKitService: MailKitService) { }
+              private readonly mailKitService: MailKitService,
+              private readonly _snackBar: MatSnackBar) {  }
 
   ngOnInit(): void {
-    this.form = this.fb.group({email: ['']});
+    this.form = this.fb.group({ email: ['', [Validators.required, Validators.email]] });
   }
-
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -33,5 +34,18 @@ export class SendToConfirmEmailComponent implements OnInit, OnDestroy {
     this.mailKitService.confirmEmail(this.email)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(value => console.log(value));
+
+    this._snackBar.open(`Please, check your email: ${this.email} 📧`);
+    setTimeout(() => {
+      this._snackBar.dismiss();
+    }, 4000);
+  }
+
+  getErrorMessage(): string {
+    if (this.form.get('email')?.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.form.get('email')?.hasError('email') ? 'Not a valid email' : '';
   }
 }

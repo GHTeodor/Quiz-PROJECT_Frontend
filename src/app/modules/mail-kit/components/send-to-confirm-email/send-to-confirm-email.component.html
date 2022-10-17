@@ -1,6 +1,13 @@
 <form [formGroup]="form" (ngSubmit)="confirm()">
-  <label for="email">Confirm Email</label>
-  <input type="email" id="email" formControlName="email">
+  <mat-form-field appearance="outline">
+    <mat-label>Confirm Email</mat-label>
 
-  <button>{{email ? "Confirm: " + email : "Confirm:"}}</button>
+    <input matInput placeholder="Confirm Email" formControlName="email" required>
+
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+
+    <mat-error *ngIf="form.get('email')?.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <button mat-stroked-button>Confirm</button>
 </form>

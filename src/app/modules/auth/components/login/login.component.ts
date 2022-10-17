@@ -47,6 +47,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  getErrorMessage(field: string): string {
+    if (field && this.form.get(field)?.touched && this.form.get(field)?.hasError('required')) {
+
+        return 'You must enter a value for field: ' + field;
+    }
+    return '';
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

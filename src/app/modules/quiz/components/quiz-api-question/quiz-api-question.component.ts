@@ -1,7 +1,9 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { QuestionService } from "../../services";
 import { ApiQuestion, Question } from "../../interfaces";
+import { AddQuizBarComponent } from "../add-quiz-bar/add-quiz-bar.component";
 
 @Component({
   selector: 'app-quiz-api-question',
@@ -18,7 +20,8 @@ export class QuizApiQuestionComponent implements OnInit, OnChanges {
   mistakes: number = 0;
   isCorrect: boolean = false;
 
-  constructor(private readonly questionService: QuestionService) { }
+  constructor(private readonly questionService: QuestionService,
+              private readonly _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     if (this.index === this.page) this.question = this.quiz;
@@ -61,10 +64,13 @@ export class QuizApiQuestionComponent implements OnInit, OnChanges {
       difficulty: this.question.difficulty,
       titleQuestion: this.question.question,
       correctAnswer: this.question.correct_answer,
-      incorrectAnswers: [{
-          incorrectAnswer: this.question.incorrect_answers[0]
-        }]
+      incorrectAnswers: []
     };
-    this.questionService.addQuestion(question).subscribe(value => console.log(value));
+    this.question.incorrect_answers.forEach(q => question.incorrectAnswers.push({incorrectAnswer: q}));
+
+    this.questionService.addQuestion(question).subscribe();
+    this._snackBar.openFromComponent(AddQuizBarComponent, {
+      duration: 1500,
+    });
   }
 }

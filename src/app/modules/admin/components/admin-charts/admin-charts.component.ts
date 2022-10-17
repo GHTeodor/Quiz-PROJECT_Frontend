@@ -4,13 +4,12 @@ import { ActivatedRoute } from "@angular/router";
 import { EChartsOption } from 'echarts';
 import * as _ from "lodash-es";
 
-
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'app-admin-charts',
+  templateUrl: './admin-charts.component.html',
+  styleUrls: ['./admin-charts.component.scss']
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminChartsComponent implements OnInit, OnDestroy {
   private readonly pieChartOptions: EChartsOption = {
     tooltip: {
       trigger: 'item'
@@ -45,7 +44,7 @@ export class AdminComponent implements OnInit, OnDestroy {
           show: false
         },
         data: [
-        //  Category, Type, Difficulty
+          //  Category, Type, Difficulty
         ]
       }
     ]
@@ -59,25 +58,25 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(({chartsData}) => {
+    this.activatedRoute.data.pipe(takeUntil(this.unsubscribe$)).subscribe(({ chartsData }) => {
       let chartInfo: string[];
       chartsData.category.forEach((c: string, index: number) => {
         chartInfo = c.split(":");
 
         // @ts-ignore
-        this.pieChartCategoryOptions.series[0].data[index] = {value: chartInfo[1], name: chartInfo[0]};
+        this.pieChartCategoryOptions.series[0].data[index] = {value: chartInfo.pop(), name: chartInfo.shift()};
       });
       chartsData.type.forEach((t: string, index: number) => {
         chartInfo = t.split(":");
 
         // @ts-ignore
-        this.pieChartTypeOptions.series[0].data[index] = {value: chartInfo[1], name: chartInfo[0]};
+        this.pieChartTypeOptions.series[0].data[index] = {value: chartInfo.pop(), name: chartInfo.shift()};
       });
       chartsData.difficulty.forEach((d: string, index: number) => {
         chartInfo = d.split(":");
 
         // @ts-ignore
-        this.pieChartDifficultyOptions.series[0].data[index] = {value: chartInfo[1], name: chartInfo[0]};
+        this.pieChartDifficultyOptions.series[0].data[index] = {value: chartInfo.pop(), name: chartInfo.shift()};
       });
     });
   }

@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule } from 'ngx-echarts';
 
+import { MaterialModule } from '../../shared';
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminComponent } from './components/admin/admin.component';
-
+import { AdminChartsComponent } from './components/admin-charts/admin-charts.component';
 
 @NgModule({
   declarations: [
-    AdminComponent,
+    AdminChartsComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     NgxEchartsModule,
+    MaterialModule
   ]
 })
 export class AdminModule { }

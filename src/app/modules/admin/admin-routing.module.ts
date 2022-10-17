@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AdminComponent } from "./components/admin/admin.component";
-import { AdminResolver } from "./services";
+import { AdminChartsResolver } from "./services";
+import { AdminChartsComponent } from "./components/admin-charts/admin-charts.component";
 
 const routes: Routes = [
-  { path: '', component: AdminComponent, resolve: { chartsData: AdminResolver} }
+  { path: '', component: AdminChartsComponent, resolve: { chartsData: AdminChartsResolver} }
 ];
 
 @NgModule({
