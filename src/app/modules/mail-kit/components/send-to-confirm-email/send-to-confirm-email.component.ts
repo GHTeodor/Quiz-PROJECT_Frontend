@@ -23,11 +23,6 @@ export class SendToConfirmEmailComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({ email: ['', [Validators.required, Validators.email]] });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   confirm(): void {
     this.email = this.form.value.email;
 
@@ -36,9 +31,6 @@ export class SendToConfirmEmailComponent implements OnInit, OnDestroy {
         .subscribe(value => console.log(value));
 
     this._snackBar.open(`Please, check your email: ${this.email} 📧`);
-    setTimeout(() => {
-      this._snackBar.dismiss();
-    }, 4000);
   }
 
   getErrorMessage(): string {
@@ -47,5 +39,11 @@ export class SendToConfirmEmailComponent implements OnInit, OnDestroy {
     }
 
     return this.form.get('email')?.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  ngOnDestroy(): void {
+    this._snackBar.dismiss();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
