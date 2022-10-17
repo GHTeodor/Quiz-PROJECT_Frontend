@@ -6,14 +6,15 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { DecodeTokenComponent } from "./components/decode-token/decode-token.component";
+import { DecodeTokenResolver, LogoutResolver, RefreshResolver } from "./services";
 
 const routes: Routes = [
   { path: '', redirectTo: 'registration', pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'refresh', component: RefreshComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: 'decode-token', component: DecodeTokenComponent }
+  { path: 'refresh', component: RefreshComponent, resolve: { refreshData: RefreshResolver } },
+  { path: 'logout', component: LogoutComponent , resolve: { logoutData: LogoutResolver } },
+  { path: 'decode-token', component: DecodeTokenComponent, resolve: { decodeTokenData: DecodeTokenResolver } }
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 
 import { AuthService } from "../../services";
@@ -13,16 +13,17 @@ export class RefreshComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private readonly router: Router,
-              private readonly authService: AuthService) { }
+              private readonly authService: AuthService,
+              private readonly activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.authService.refreshToken()
+    this.activatedRoute.data
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(refresh => {
-        console.log(refresh);
-        this.authService.setToken(refresh.accessToken);
-        this.router.navigate([`users/${refresh.id}`]);
-      });
+      .subscribe(({refreshData}) => {
+          console.log(refreshData);
+          this.authService.setToken(refreshData.accessToken);
+          this.router.navigate([`users/${refreshData.id}`]);
+        });
   }
 
   ngOnDestroy(): void {

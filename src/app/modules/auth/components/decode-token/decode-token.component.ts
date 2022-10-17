@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject, takeUntil} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
-import { AuthService } from "../../services";
+import { UserTokenInfo } from "../../interfaces";
 
 @Component({
   selector: 'app-decode-token',
@@ -9,14 +10,16 @@ import { AuthService } from "../../services";
   styleUrls: ['./decode-token.component.scss']
 })
 export class DecodeTokenComponent implements OnInit, OnDestroy {
+  userInfo!: UserTokenInfo;
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.authService.decodeToken()
+    this.activatedRoute.data
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(value => console.log(value));
+      .subscribe(({decodeTokenData}) =>
+        this.userInfo = decodeTokenData);
   }
 
   ngOnDestroy(): void {

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 
 import { urls } from "../../../constants";
-import { Login, Registration, TokenResponse } from "../interfaces";
+import { Login, Registration, TokenResponse, UserTokenInfo } from "../interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -34,15 +34,15 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<any> {
+  logout(): Observable<object> {
     return this.http.delete(urls.logout).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
   }
 
-  decodeToken(): Observable<any> {
-    return this.http.get<any>(urls.decodeToken).pipe(
+  decodeToken(): Observable<UserTokenInfo> {
+    return this.http.get<UserTokenInfo>(urls.decodeToken).pipe(
       map(value => value),
       catchError(err => throwError(err))
     );
