@@ -13,7 +13,7 @@
   <mat-list-item>phone: {{ user.phone }}</mat-list-item>
   <mat-list-item>age: {{ user.age }}</mat-list-item>
   <mat-list-item>role: {{ user.role }}</mat-list-item>
-  <mat-list-item>createdAt: {{ user.createdAt }}</mat-list-item>
-  <mat-list-item>updatedAt: {{ user.updatedAt }}</mat-list-item>
+  <mat-list-item>createdAt: {{ user.createdAt | date }}</mat-list-item>
+  <mat-list-item>updatedAt: {{ user.updatedAt | date }}</mat-list-item>
 
 </mat-list>
