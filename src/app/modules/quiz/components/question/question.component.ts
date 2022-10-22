@@ -14,6 +14,7 @@ import { QuestionService } from "../../services";
 export class QuestionComponent implements OnInit, OnDestroy {
   question!: Question;
   form!: FormGroup;
+  formArray: FormArray = this.fb.array([]);
   private id!: number;
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
 
@@ -27,15 +28,18 @@ export class QuestionComponent implements OnInit, OnDestroy {
       this.question = q;
       this.id = q.id;
 
+        q.incorrectAnswers.forEach(({incorrectAnswer}: any ) => {
+          this.formArray.push(this.fb.control( incorrectAnswer));
+        });
+        console.log(this.formArray.getRawValue());
         this.form = this.fb.group({
           category: [q.category, [Validators.required]],
           type: [q.type, [Validators.required]],
           difficulty: [q.difficulty, [Validators.required]],
           titleQuestion: [q.titleQuestion, [Validators.required]],
           correctAnswer: [q.correctAnswer, [Validators.required]],
-          incorrectAnswers: this.fb.array([]),
+          incorrectAnswers: this.formArray,
         });
-        this.addIncorrectAnswerFormGroup(q.incorrectAnswers.length);
     });
   }
 
@@ -46,12 +50,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
       difficulty: this.form.get('difficulty')?.value,
       titleQuestion: this.form.get('titleQuestion')?.value,
       correctAnswer: this.form.get('correctAnswer')?.value,
-      incorrectAnswers: [
-        {
-          incorrectAnswer: "Not to be"
-        }
-      ]
+      incorrectAnswers: [],
     }
+    this.formArray.getRawValue().forEach(fa=>questionForUpdate.incorrectAnswers.push({incorrectAnswer: fa}))
+
     this.questionService.updateQuestionById(this.id, questionForUpdate)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(value => console.log(value));
@@ -63,22 +65,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
       .subscribe(value => console.log(value));
   }
 
-  //  =========== Must be corrected
-  public addIncorrectAnswerFormGroup(length: number) {
-    const incorrectAnswers = this.form.get('incorrectAnswers') as FormArray;
-    console.log(incorrectAnswers.controls);
-    console.log(this.form.get('incorrectAnswers')?.value);
-    for (let i = 0; i < length; i++) {
-      incorrectAnswers.push(this.createIncorrectAnswerFormGroup());
-    }
+  //
+  addIncorrectAnswersArray(): void {
+    this.formArray.controls.push(this.fb.control( ''));
   }
 
-  private createIncorrectAnswerFormGroup(): FormGroup {
-    return this.fb.group({
-      incorrectAnswer: [''],
-    });
-  }
-  //  =========== Must be corrected
+  removeIncorrectAnswersArray(index: number): void {
+    this.formArray.removeAt(index);
+  };
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
