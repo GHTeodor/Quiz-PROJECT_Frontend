@@ -19,7 +19,7 @@
 
 <mat-divider></mat-divider>
 
-<form [formGroup]="form" (ngSubmit)="update()">
+<form [formGroup]="form">
   <mat-form-field appearance="legacy">
     <input matInput placeholder="Category" formControlName="category"/>
   </mat-form-field>
@@ -41,14 +41,15 @@
   </mat-form-field>
 
   <ng-container formArrayName="incorrectAnswers">
-    <ng-container *ngFor="let incorrectAnswer of question.incorrectAnswers; index as i">
-      <form [formGroupName]="i">
+    <ng-container *ngFor="let incorrectAnswer of formArray['controls']; let i = index">
+      <br />
       <mat-form-field appearance="legacy">
-        <input matInput placeholder="Incorrect answer" [defaultValue]="incorrectAnswer.incorrectAnswer" formControlName="incorrectAnswer"/>
+        <input matInput placeholder="incorrectAnswer" formControlName="{{i}}" required>
       </mat-form-field>
-      </form>
+      <button mat-stroked-button color="warn" (click)="removeIncorrectAnswersArray(i)">Remove</button>
     </ng-container>
+    <button mat-stroked-button color="accent" (click)="addIncorrectAnswersArray()">Add column</button>
   </ng-container>
 
-  <button mat-raised-button color="accent">Update</button>
+  <button mat-raised-button color="accent" (click)="update()">Update</button>
 </form>
